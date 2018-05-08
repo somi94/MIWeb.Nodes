@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "miweb/nodes",
+    "require": {
+        "neos/flow": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MIWeb\\Nodes\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "MIWeb.Nodes"
+        }
+    }
+}

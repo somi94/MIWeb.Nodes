@@ -1,0 +1,12 @@
+MIWeb:
+  Nodes:
+    nodeTypes:
+      'plain':
+        class: 'MIWeb\\Nodes\\NodeTypes\\PlainNode'
+        defaults:
+          content: '[empty]'
+      'template':
+        class: 'MIWeb\\Nodes\\NodeTypes\\SimpleTemplateNode'
+        defaults:
+          templateSource: '[empty]'
+
