@@ -23,6 +23,12 @@ class NodeController extends ActionController {
 	protected $nodeService;
 
 	/**
+	 * @Flow\InjectConfiguration(package="MIWeb.Nodes")
+	 * @var array
+	 */
+	protected $settings;
+
+	/**
 	 * @param string $node
 	 * @return string
 	 * @throws Exception
@@ -34,7 +40,11 @@ class NodeController extends ActionController {
 
 		$node = $this->nodeRepository->findByIdentifier($node);
 		if($node == null) {
-			throw new Exception("Node not found.");
+			if(isset($this->settings['fallbackNode'])) {
+				$node = $this->nodeService->createFromConfig($this->settings['fallbackNode']);
+			} else {
+				throw new Exception("Node not found.");
+			}
 		}
 
 		$nodeType = $node->getNodeType();
@@ -59,7 +69,11 @@ class NodeController extends ActionController {
 
 		$node = $this->nodeRepository->findByAttribute($attribute, $value, $nodeType);
 		if($node == null) {
-			throw new Exception("Node not found.");
+			if(isset($this->settings['fallbackNode'])) {
+				$node = $this->nodeService->createFromConfig($this->settings['fallbackNode']);
+			} else {
+				throw new Exception("Node not found.");
+			}
 		}
 
 		$nodeType = $node->getNodeType();

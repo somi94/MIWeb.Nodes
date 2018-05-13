@@ -1,6 +1,7 @@
 <?php
 namespace MIWeb\Nodes\Domain\Service;
 
+use MIWeb\Nodes\Domain\Model\Node;
 use MIWeb\Nodes\NodeTypes\NodeTypeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
@@ -22,6 +23,18 @@ class NodeService {
 	 * @var array
 	 */
 	protected $nodeTypeCache = [];
+
+	/**
+	 * @param array $config
+	 * @return Node
+	 */
+	public function createFromConfig($config) {
+		$node = new Node();
+		$node->setNodeType($config['nodeType']);
+		$node->setAttributes(isset($config['attributes']) ? $config['attributes'] : []);
+
+		return $node;
+	}
 
 	/**
 	 * @param string $nodeTypeIdentifier

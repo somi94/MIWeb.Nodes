@@ -1,12 +1,18 @@
 MIWeb:
   Nodes:
+    fallbackNode:
+      nodeType: 'plain'
+      attributes:
+        content: '404 - Page not found'
     nodeTypes:
       'plain':
-        class: 'MIWeb\\Nodes\\NodeTypes\\PlainNode'
+        class: 'MIWeb\Nodes\NodeTypes\PlainNode'
         defaults:
           content: '[empty]'
       'template':
-        class: 'MIWeb\\Nodes\\NodeTypes\\SimpleTemplateNode'
+        class: 'MIWeb\Nodes\NodeTypes\SimpleTemplateNode'
         defaults:
           templateSource: '[empty]'
+      'fluid':
+        class: 'MIWeb\Nodes\NodeTypes\FluidNode'
 
