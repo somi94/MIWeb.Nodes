@@ -15,4 +15,11 @@ MIWeb:
           templateSource: '[empty]'
       'fluid':
         class: 'MIWeb\Nodes\NodeTypes\FluidNode'
+    nodeEditors:
+      textfield:
+        viewhelper: 'Neos\FluidAdaptor\ViewHelpers\Form\TextfieldViewHelper'
+      textarea:
+        viewhelper: 'Neos\FluidAdaptor\ViewHelpers\Form\TextareaViewHelper'
+      html:
+        viewhelper: 'Neos\FluidAdaptor\ViewHelpers\Form\TextareaViewHelper'
 

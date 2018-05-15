@@ -83,6 +83,15 @@ class Node {
 		$this->identifier = $identifier;
 	}
 
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasAttribute($name) {
+		return isset($this->attributes[$name]);
+	}
+
 	/**
 	 * @param string $name
 	 * @return string|null
@@ -113,6 +122,14 @@ class Node {
 	 */
 	public function setAttributes($attributes) {
 		$this->attributes = $attributes;
+	}
+
+	/**
+	 * @param string $attribute
+	 * @param string $value
+	 */
+	public function setAttribute($attribute,$value) {
+		$this->attributes[$attribute] = $value;
 	}
 
 	/**

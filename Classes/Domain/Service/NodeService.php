@@ -20,6 +20,12 @@ class NodeService {
 	protected $nodeTypes;
 
 	/**
+	 * @Flow\InjectConfiguration(package="MIWeb.Nodes", path="nodeEditors")
+	 * @var array
+	 */
+	protected $nodeEditors;
+
+	/**
 	 * @var array
 	 */
 	protected $nodeTypeCache = [];
@@ -59,7 +65,7 @@ class NodeService {
 
 	/**
 	 * @param string $nodeTypeIdentifier
-	 * @return NodeTypeInterface
+	 * @return array
 	 * @throws Exception
 	 */
 	public function getNodeTypeConfig($nodeTypeIdentifier) {
@@ -68,5 +74,18 @@ class NodeService {
 		}
 
 		return $this->nodeTypes[$nodeTypeIdentifier];
+	}
+
+	/**
+	 * @param string $nodeEditorIdentifier
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getNodeEditorConfig($nodeEditorIdentifier) {
+		if(!isset($this->nodeEditors[$nodeEditorIdentifier])) {
+			throw new Exception("Unknown Node Editor \"$nodeEditorIdentifier\".");
+		}
+
+		return $this->nodeEditors[$nodeEditorIdentifier];
 	}
 }

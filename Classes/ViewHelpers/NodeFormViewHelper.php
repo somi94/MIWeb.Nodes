@@ -38,6 +38,10 @@ class NodeFormViewHelper extends FormViewHelper {
 		return parent::initialize();
 	}
 
+	/**
+	 * @return string
+	 * @throws \Neos\Flow\Exception
+	 */
 	public function renderChildren() {
 		/**
 		 * @var Node $node
@@ -95,11 +99,23 @@ class NodeFormViewHelper extends FormViewHelper {
 		return $contents . parent::renderChildren();
 	}
 
-	protected function renderProperty($property,$label = null,$editor = 'Textfield',$class = '') {
-		$viewhelper = $editor;
-		$viewhelper = "Neos\\FluidAdaptor\\ViewHelpers\\Form\\" . $viewhelper . "ViewHelper";
+	/**
+	 * @param $property
+	 * @param null $label
+	 * @param string $editorIdentifier
+	 * @param string $class
+	 * @return string
+	 * @throws \Neos\Flow\Exception
+	 */
+	protected function renderProperty($property, $label = null, $editorIdentifier = 'textfield', $class = '') {
+		$editor = $this->nodeService->getNodeEditorConfig($editorIdentifier);
+		if(!$editor || !isset($editor['viewhelper'])) {
+			return "<p><i>No ViewHelper defined for editor '$editorIdentifier'.</i></p>";
+		}
+		$viewhelper = $editor['viewhelper'];
+		//$viewhelper = "Neos\\FluidAdaptor\\ViewHelpers\\Form\\" . $viewhelper . "ViewHelper";
 		if(!class_exists($viewhelper)) {
-			return "<p><i>ViewHelper not found: '$viewhelper'</i></p>";
+			return "<p><i>Couldn't find ViewHelper class '$viewhelper' for editor '$editorIdentifier'.</i></p>";
 		}
 
 		$contents = "<p>";
@@ -108,12 +124,11 @@ class NodeFormViewHelper extends FormViewHelper {
 			$contents .= "<label>" . $label . "</label><br>";
 		}
 
-		$contents .= $this->renderingContext->getViewHelperInvoker()->invoke($viewhelper, [
-			//'value' => $node->getAttribute($attribute),
-			//'name' => $this->arguments['objectName'] . "[attributes][$attribute]"
-			'property' => $property,
-			'class' => $class . ' editor-' . strtolower($editor)
-		], $this->renderingContext);
+		$options = isset($editor['options']) ? $editor['options'] : [];
+		$options['property'] = $property;
+		$options['class'] = (isset($options['class']) ? $options['class'] . ' ' : '') . $class . ' editor-' . strtolower($editorIdentifier);
+
+		$contents .= $this->renderingContext->getViewHelperInvoker()->invoke($viewhelper, $options, $this->renderingContext);
 
 		$contents .= "</p>";
 
