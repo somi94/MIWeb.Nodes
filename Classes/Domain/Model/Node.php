@@ -184,4 +184,11 @@ class Node {
 	public function setDeleted() {
 		$this->deleted = new \DateTime('now');
 	}
+
+	/**
+	 * @return void
+	 */
+	public function setUndeleted() {
+		$this->deleted = null;
+	}
 }
